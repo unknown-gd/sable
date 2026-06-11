@@ -59,7 +59,7 @@ publishMods {
     modLoaders.add(project.name)
 
     github {
-        repository = "ryanhcode/sable"
+        repository = "unknown-gd/sable"
         accessToken = providers.environmentVariable("GITHUB_TOKEN")
         tagName = "mc$minecraft_version-$project.version-$project.name"
         commitish = "main"
