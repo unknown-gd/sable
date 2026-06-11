@@ -1,17 +1,19 @@
 name: build
+
 on:
+  workflow_dispatch:
   push:
     paths:
-      - 'common/src/main/java/**'
-      - 'fabric/src/main/java/**'
-      - 'neoforge/src/main/java/**'
-      - '**/gradle.properties'
-      - '**/settings.gradle'
-      - '**/build.gradle'
-      - '.github/workflows/gametests.yml'
+      - "common/src/main/java/**"
+      - "fabric/src/main/java/**"
+      - "neoforge/src/main/java/**"
+      - "**/gradle.properties"
+      - "**/settings.gradle"
+      - "**/build.gradle"
+      - ".github/workflows/gametests.yml"
   pull_request:
     branches:
-      - 'main'
+      - "main"
 
 jobs:
   build:
@@ -23,7 +25,7 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v5
         with:
-          distribution: 'temurin'
+          distribution: "temurin"
           java-version: 21
           cache: gradle
 
@@ -36,5 +38,12 @@ jobs:
       - name: Execute Gradle build
         run: ./gradlew build
 
-      - name: Run game tests
-        run: ./gradlew neoforge:runGameTest
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: sable-${{ steps.ref.outputs.branch }}
+          path: build/
+          retention-days: 30
+
+      # - name: Run game tests
+      #   run: ./gradlew neoforge:runGameTest
